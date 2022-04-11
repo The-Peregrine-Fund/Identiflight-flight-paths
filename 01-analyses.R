@@ -1,11 +1,11 @@
 # run model in nimble using parallel processing
-print(getwd())
 load("./data_5s.Rdata")
 library(parallel)
 library(coda)
 this_cluster <- makeCluster(3)
 set.seed(01151929)
 
+# create function to run model
 run <- function(seed, dat, const){
   library(nimble)
   code <- nimbleCode( # model code 
@@ -75,7 +75,7 @@ run <- function(seed, dat, const){
   
   return(chain.out)
 }
-
+# run model in parallel
 post <- parLapply(cl = this_cluster, 
                   X = 1:3, 
                   fun = run, 
